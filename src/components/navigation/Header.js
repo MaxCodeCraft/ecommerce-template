@@ -1,21 +1,19 @@
 import React from "react";
 import Link from "next/link";
-import { PiUser, PiShoppingCartSimple, PiHeart } from "react-icons/pi";
-import { RxHamburgerMenu } from "react-icons/rx";
 import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
-import { getCategories } from "@/services/productService";
+  PiUser,
+  PiShoppingCartSimple,
+  PiHeart,
+  PiSun,
+  PiMoon,
+} from "react-icons/pi";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { HydrationBoundary } from "@tanstack/react-query";
+import { prefetchCategories } from "@/hooks/useCategories";
 import MenuCategories from "./MenuCategories";
 
 export default async function Header() {
-  const queryClient = new QueryClient();
-  await queryClient.prefetchQuery({
-    queryKey: ["categories"],
-    queryFn: getCategories,
-  });
+  const dehydratedState = await prefetchCategories();
 
   return (
     <header className="navbar mx-auto bg-base-100 lg:px-10">
@@ -35,7 +33,7 @@ export default async function Header() {
             </li>
             <li>
               <a>Shop</a>
-              <HydrationBoundary state={dehydrate(queryClient)}>
+              <HydrationBoundary state={dehydratedState}>
                 <MenuCategories />
               </HydrationBoundary>
             </li>
@@ -60,7 +58,7 @@ export default async function Header() {
           <li>
             <details>
               <summary>Shop</summary>
-              <HydrationBoundary state={dehydrate(queryClient)}>
+              <HydrationBoundary state={dehydratedState}>
                 <MenuCategories />
               </HydrationBoundary>
             </details>
@@ -75,6 +73,15 @@ export default async function Header() {
       </div>
       {/* Partie droite de la navbar desktop et responsive */}
       <div className="navbar-end">
+        <label className="mr-4 flex cursor-pointer items-center gap-2">
+          <PiSun className="text-xl" />
+          <input
+            type="checkbox"
+            value="dark"
+            className="theme-controller toggle"
+          />
+          <PiMoon className="text-xl" />
+        </label>
         {/* Remplacer les <a> par des <Link> */}
         <a className="btn btn-ghost">
           <PiUser className="text-xl" />

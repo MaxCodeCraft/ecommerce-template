@@ -1,18 +1,10 @@
 import HomeCategories from "@/components/galleries/HomeCategories";
 import Image from "next/image";
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
-import { getCategories } from "@/services/productService";
+import { HydrationBoundary } from "@tanstack/react-query";
+import { prefetchCategories } from "@/hooks/useCategories";
 
 export default async function Home() {
-  const queryClient = new QueryClient();
-  await queryClient.prefetchQuery({
-    queryKey: ["categories"],
-    queryFn: getCategories,
-  });
+  const dehydratedState = await prefetchCategories();
   return (
     <>
       {/* Hero section provisoire, à remplacer ! */}
@@ -29,7 +21,7 @@ export default async function Home() {
           </div>
         </div>
       </div>
-      <HydrationBoundary state={dehydrate(queryClient)}>
+      <HydrationBoundary state={dehydratedState}>
         <HomeCategories />
       </HydrationBoundary>
     </>

@@ -1,17 +1,9 @@
 "use client";
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getCategories } from "@/services/productService";
+import { useCategories } from "@/hooks/useCategories";
 
 export default function MenuCategories() {
-  const {
-    data: categories,
-    error,
-    isFetched,
-  } = useQuery({
-    queryKey: ["categories"],
-    queryFn: getCategories,
-  });
+  const { data: categories, error, isFetched } = useCategories();
 
   return (
     <ul className="z-50 w-52 rounded-lg p-2">
