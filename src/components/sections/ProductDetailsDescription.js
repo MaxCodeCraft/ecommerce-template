@@ -1,12 +1,30 @@
 "use client";
 import { useProductById } from "@/hooks/useProducts";
-import React from "react";
-import { PiHeart, PiBag } from "react-icons/pi";
+import React, { useState, useEffect } from "react";
+import { PiHeart } from "react-icons/pi";
+import AddToCartButton from "../buttons/AddToCartButton";
+import { useSelector } from "react-redux";
 
 export default function ProductDetailsDescription({ id }) {
   const { data: product, error, isFetched } = useProductById(id);
+  const cartItems = useSelector((state) => state.cart);
+
+  const [qty, setQty] = useState(() => {
+    const itemInCart = cartItems.find((x) => x.id === Number(id));
+    return itemInCart ? itemInCart.qty : 1; // Si l'item est dans le panier, on récupère sa quantité, sinon on initialise à 1
+  });
+  const isInCart = cartItems.find((x) => x.id === Number(id));
+
   const plusMinuceButton =
     "flex h-12 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500";
+
+  const handleDecrementQty = () => {
+    setQty((previous) => (previous > 1 ? previous - 1 : previous));
+  };
+
+  const handleIncrementQty = () => {
+    setQty((previous) => (previous < product.stock ? previous + 1 : previous));
+  };
 
   return (
     <div className="">
@@ -77,19 +95,25 @@ export default function ProductDetailsDescription({ id }) {
       <div className="mt-7 flex flex-row items-center gap-6">
         <div className="">
           <div className="flex">
-            <button className={`${plusMinuceButton}`}>−</button>
+            <button
+              className={`${plusMinuceButton}`}
+              onClick={handleDecrementQty}
+            >
+              −
+            </button>
             <div className="flex h-12 w-12 cursor-text items-center justify-center border-b border-t active:ring-gray-500">
-              1
+              {qty}
             </div>
-            <button className={`${plusMinuceButton}`}> +</button>
+            <button
+              className={`${plusMinuceButton}`}
+              onClick={handleIncrementQty}
+            >
+              {" "}
+              +
+            </button>
           </div>
         </div>
-        <button
-          className={`btn btn-primary flex items-center ${product.stock <= 0 && "btn-disabled"}`}
-        >
-          <PiBag />
-          Add to cart
-        </button>
+        <AddToCartButton product={product} qty={qty} isInCart={isInCart} />
         <button className="btn btn-secondary flex items-center">
           <PiHeart />
           Wishlist

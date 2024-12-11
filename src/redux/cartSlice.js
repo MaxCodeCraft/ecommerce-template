@@ -42,16 +42,16 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
-      const { id, title, price, image } = action.payload;
+      const { id, title, price, image, qty } = action.payload;
       // Vérifie si l'article existe dans le panier
       const existingItem = state.find((item) => item.id === id);
 
       if (existingItem) {
         // Si l'article existe, mise à jour de la quantité
-        existingItem.qty += 1;
+        existingItem.qty = qty;
       } else {
         // S'il n'exite pas, l'ajoute au panier
-        state.push({ id, title, price, image, qty: 1 });
+        state.push({ id, title, price, image, qty });
       }
     },
     removeFromCart: (state, action) => {

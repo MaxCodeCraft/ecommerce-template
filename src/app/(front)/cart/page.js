@@ -1,6 +1,7 @@
 "use client";
 import RemoveFromCartButton from "@/components/buttons/RemoveFromCartButton";
 import { incrementQty, decrementQty } from "@/redux/cartSlice";
+import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -44,12 +45,14 @@ export default function Cart() {
             <tr key={i} className="text-center">
               <td className="">
                 {/* Affichage de l'image du produit */}
-                <Image
-                  src={item.image}
-                  width={70}
-                  height={70}
-                  className="my-1 w-full rounded-lg bg-accent/10 object-cover"
-                />
+                <Link href={`/product/${item.id}`}>
+                  <Image
+                    src={item.image}
+                    width={70}
+                    height={70}
+                    className="my-1 w-full rounded-lg bg-accent/10 object-cover"
+                  />
+                </Link>
               </td>
               {/* Nom du produit */}
               <td className="px-2 font-semibold text-base-content/80">

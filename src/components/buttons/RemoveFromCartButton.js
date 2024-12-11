@@ -10,7 +10,7 @@ export default function RemoveFromCartButton({ cartId }) {
   };
   return (
     <button onClick={handleRemoveFromCart}>
-      <FaCircleXmark />
+      <FaCircleXmark className="text-base-content/60" />
     </button>
   );
 }
