@@ -1,16 +1,11 @@
 import React from "react";
 import Link from "next/link";
-import {
-  PiUser,
-  PiShoppingCartSimple,
-  PiHeart,
-  PiSun,
-  PiMoon,
-} from "react-icons/pi";
+import { PiUser, PiHeart, PiSun, PiMoon } from "react-icons/pi";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { HydrationBoundary } from "@tanstack/react-query";
 import { prefetchCategories } from "@/hooks/useCategories";
 import MenuCategories from "./MenuCategories";
+import HeaderCartButton from "./HeaderCartButton";
 
 export default async function Header() {
   const dehydratedState = await prefetchCategories();
@@ -77,7 +72,7 @@ export default async function Header() {
           <PiSun className="text-xl" />
           <input
             type="checkbox"
-            value="dark"
+            value="night"
             className="theme-controller toggle"
           />
           <PiMoon className="text-xl" />
@@ -87,9 +82,7 @@ export default async function Header() {
           <PiUser className="text-xl" />
           <p>Login / Register</p>
         </a>
-        <a href="" className="btn btn-ghost">
-          <PiShoppingCartSimple className="text-xl" />
-        </a>
+        <HeaderCartButton />
         <a href="" className="btn btn-ghost">
           <PiHeart className="text-xl" />
         </a>

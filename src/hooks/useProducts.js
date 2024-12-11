@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, QueryClient, dehydrate } from "@tanstack/react-query";
 import { getProducts, getProductById } from "@/services/productService";
 
 export const useProducts = () => {
@@ -12,6 +12,15 @@ export const useProductById = (id) => {
   return useQuery({
     queryKey: ["product", id],
     queryFn: () => getProductById(id),
-    enabled: !!id, // N'exécute le fetch que si l'ID existe
   });
+};
+
+export const prefetchProductById = async (id) => {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ["product", id],
+    queryFn: () => getProductById(id),
+  });
+
+  return dehydrate(queryClient);
 };
