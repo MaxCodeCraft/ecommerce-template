@@ -18,7 +18,7 @@ export default function CartModal({ cartItems }) {
             <div key={i} className="grid grid-cols-8">
               <div className="col-span-2 h-24 w-24 rounded-lg bg-accent/10">
                 <Link
-                  href={`/product/${item.id}`}
+                  href={`/products/${item.id}`}
                   onClick={() => document.getElementById("cart_modal").close()}
                 >
                   <Image

@@ -48,7 +48,7 @@ export default function HomeCategories() {
         >
           {categories.map((cat, i) => (
             <SwiperSlide key={cat.slug}>
-              <Link href={"/"}>
+              <Link href={`/category/${cat.slug}`}>
                 {/* Ajouter ici Image de fond si besoin */}
                 <div className="flex h-[480px] w-full items-center justify-center rounded-lg bg-base-300 hover:bg-secondary">
                   <h3>{cat.name}</h3>

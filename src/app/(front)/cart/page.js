@@ -45,7 +45,7 @@ export default function Cart() {
             <tr key={i} className="text-center">
               <td className="">
                 {/* Affichage de l'image du produit */}
-                <Link href={`/product/${item.id}`}>
+                <Link href={`/products/${item.id}`}>
                   <Image
                     src={item.image}
                     width={70}

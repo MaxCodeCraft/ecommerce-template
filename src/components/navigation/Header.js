@@ -41,7 +41,7 @@ export default async function Header() {
           </ul>
         </div>
         <Link href={"/"} role="button" className="btn btn-ghost text-xl">
-          daisyUI
+          SuperShop
         </Link>
       </div>
       {/* Partie centrale de la navbar desktop */}
