@@ -6,7 +6,7 @@ import AddToCartButton from "../buttons/AddToCartButton";
 import { useSelector } from "react-redux";
 
 export default function ProductDetailsDescription({ id }) {
-  const { data: product, error, isFetched } = useProductById(id);
+  const { data: product, error, isFetching } = useProductById(id);
   const cartItems = useSelector((state) => state.cart);
 
   const [qty, setQty] = useState(() => {
@@ -16,7 +16,7 @@ export default function ProductDetailsDescription({ id }) {
   const isInCart = cartItems.find((x) => x.id === Number(id));
 
   const plusMinuceButton =
-    "flex h-12 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500";
+    "flex h-12 w-8 cursor-pointer items-center rounded-lg justify-center duration-100 hover:bg-secondary focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500";
 
   const handleDecrementQty = () => {
     setQty((previous) => (previous > 1 ? previous - 1 : previous));
@@ -25,6 +25,26 @@ export default function ProductDetailsDescription({ id }) {
   const handleIncrementQty = () => {
     setQty((previous) => (previous < product.stock ? previous + 1 : previous));
   };
+
+  if (isFetching) {
+    return (
+      <div>
+        <div className="skeleton h-8 w-96 pt-3 text-2xl lg:pt-0"></div>
+        <div className="mt-1"></div>
+        <div className="skeleton mt-5 h-12 w-44"></div>
+
+        <div className="skeleton mt-4 h-9 w-28"></div>
+        <div className="skeleton mt-5 h-11 w-full"></div>
+
+        <div className="mt-7 flex flex-row items-center gap-6">
+          <div className="skeleton h-12 w-28"></div>
+
+          <div className="skeleton h-12 w-32"></div>
+          <div className="skeleton h-12 w-28"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="">
@@ -101,7 +121,7 @@ export default function ProductDetailsDescription({ id }) {
             >
               −
             </button>
-            <div className="flex h-12 w-12 cursor-text items-center justify-center border-b border-t active:ring-gray-500">
+            <div className="flex h-12 w-12 cursor-text items-center justify-center active:ring-gray-500">
               {qty}
             </div>
             <button

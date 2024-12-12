@@ -27,9 +27,11 @@ export const getProductBySlug = async (slug) => {
 
 export const getProductsByCategory = async (category) => {
   // `/api/products/category/${category}`
-  const response = await fetch(`https://dummyjson.com/products/${category}`);
+  const response = await fetch(
+    `https://dummyjson.com/products/category/${category}`,
+  );
   if (!response.ok)
-    throw new Error(`Failed to fetch product with slug: ${slug}`);
+    throw new Error(`Failed to fetch product with slug: ${category}`);
   return response.json();
 };
 

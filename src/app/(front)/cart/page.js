@@ -1,10 +1,11 @@
 "use client";
 import RemoveFromCartButton from "@/components/buttons/RemoveFromCartButton";
-import { incrementQty, decrementQty } from "@/redux/cartSlice";
+import { incrementQty, decrementQty, emptyCart } from "@/redux/cartSlice";
 import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { PiTrash } from "react-icons/pi";
 
 export default function Cart() {
   // Récupération des articles du panier depuis le state global Redux
@@ -13,7 +14,7 @@ export default function Cart() {
 
   // Classe de style pour les boutons + et -
   const plusMinuceButton =
-    "flex h-12 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500";
+    "flex h-12 w-8 cursor-pointer items-center rounded-lg justify-center duration-100 hover:bg-secondary focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500";
 
   // Fonction pour diminuer la quantité d'un article spécifique dans le panier
   const handleDecrement = (cartId) => {
@@ -23,6 +24,11 @@ export default function Cart() {
   // Fonction pour augmenter la quantité d'un article spécifique dans le panier
   const handleIncrement = (cartId) => {
     dispatch(incrementQty(cartId));
+  };
+
+  // Fonction pour vider le panier de tous ses articles
+  const handleEmptyCart = () => {
+    dispatch(emptyCart());
   };
 
   return (
@@ -43,7 +49,7 @@ export default function Cart() {
           {/* Boucle pour afficher chaque article du panier */}
           {cartItems.map((item, i) => (
             <tr key={i} className="text-center">
-              <td className="">
+              <td>
                 {/* Affichage de l'image du produit */}
                 <Link href={`/products/${item.id}`}>
                   <Image
@@ -71,7 +77,7 @@ export default function Cart() {
                   >
                     −
                   </button>
-                  <div className="flex h-12 w-12 cursor-text items-center justify-center border-b border-t active:ring-gray-500">
+                  <div className="flex h-12 w-12 cursor-text items-center justify-center active:ring-gray-500">
                     {item.qty}
                   </div>
                   <button
@@ -93,6 +99,18 @@ export default function Cart() {
               </td>
             </tr>
           ))}
+          {cartItems.length > 0 && (
+            <tr>
+              <td colSpan={6} className="text-right">
+                <button
+                  className="btn btn-error"
+                  onClick={() => handleEmptyCart()}
+                >
+                  <PiTrash /> Empty Cart
+                </button>
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
 
